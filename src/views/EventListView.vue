@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import axios from 'axios'
+import { ref , onMounted} from 'vue'
 import EventCard from '@/components/EventCard.vue'
 import type { Event } from '@/types'
 
