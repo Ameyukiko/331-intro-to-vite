@@ -32,6 +32,17 @@
       "time": "11:00",
       "petsAllowed": false,
       "organizer": "Carey Wales"
+    },
+    {
+      "id": 999999,
+      "category": "education",
+      "title": "Open AI Workshop",
+      "description": "Learn about AI with hands-on examples.",
+      "location": "Tech City",
+      "date": "August 5, 2025",
+      "time": "13:00",
+      "petsAllowed": false,
+      "organizer": "Fatima Muhammad"
     }
   ]
 }
