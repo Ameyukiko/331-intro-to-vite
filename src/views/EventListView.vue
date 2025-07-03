@@ -2,16 +2,15 @@
 import axios from 'axios'
 import { ref , onMounted} from 'vue'
 import EventCard from '@/components/EventCard.vue'
+import EventService from '@/Services/EventService.ts'
 import type { Event } from '@/types'
-
 
 const events = ref<Event[]>([])
 
 onMounted(() => {
-  axios
-    .get('https://my-json-server.typicode.com/Ameyukiko/331-intro-to-vite/events')
+  EventService.getEvents()
     .then((response) => {
-      console.log(response.data)
+      events.value = response.data
     })
     .catch((error) => {
       console.error('There was an error!', error)
@@ -22,10 +21,7 @@ onMounted(() => {
 <template>
   <h1>Events For Good</h1>
   <div class="events">
-    <EventCard 
-    v-for="event in events" 
-    :key="event.id" 
-    :event="event" />
+    <EventCard v-for="event in events" :key="event.id" :event="event" />
   </div>
 </template>
 
@@ -36,4 +32,3 @@ onMounted(() => {
   align-items: center;
 }
 </style>
-
