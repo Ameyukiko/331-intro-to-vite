@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import EventMeta from '@/components/EventMeta.vue'
+import { ref, computed } from 'vue'
 import EventCard from '@/components/EventCard.vue'
 import type { Event } from '@/types'
 
@@ -13,7 +14,7 @@ const events = ref<Event[]>([
     date: 'January 28, 2022',
     time: '12:00',
     petsAllowed: true,
-    organizer: 'Kat Laydee'
+    organizer: 'Kat Laydee',
   },
   {
     id: 4582797,
@@ -24,7 +25,7 @@ const events = ref<Event[]>([
     date: 'March 14, 2022',
     time: '10:00',
     petsAllowed: true,
-    organizer: 'Fern Pollin'
+    organizer: 'Fern Pollin',
   },
   {
     id: 8419988,
@@ -35,18 +36,24 @@ const events = ref<Event[]>([
     date: 'July 22, 2022',
     time: '11:00',
     petsAllowed: false,
-    organizer: 'Carey Wales'
-  }
+    organizer: 'Carey Wales',
+  },
 ])
+
+const animalWelfareEvent = computed(() => events.value.find((e) => e.category === 'animal welfare'))
 </script>
 
 <template>
-  <div class="events">
-    <EventCard
-      v-for="event in events"
-      :key="event.id"
-      :event="event"
-    />
+  <div>
+    <div class="events">
+      <div v-for="event in events" :key="event.id">
+        <EventCard :event="event" />
+      </div>
+    </div>
+    <!-- Show animal welfare EventMeta only once, on the right -->
+    <div class="animal-welfare-meta">
+      <EventMeta v-if="animalWelfareEvent" :event="animalWelfareEvent" />
+    </div>
   </div>
 </template>
 
@@ -56,5 +63,8 @@ const events = ref<Event[]>([
   flex-direction: column;
   align-items: center;
 }
+.animal-welfare-meta {
+  display: flex;
+  justify-content: flex-end;
+}
 </style>
-
