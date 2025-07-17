@@ -4,7 +4,7 @@ import type { Event } from '@/types'
 import EventService from '@/Services/EventService'
 const props = defineProps ({
   id: {
-    type: Number,
+    type: String,
     required: true
   }
 })
@@ -13,12 +13,12 @@ const props = defineProps ({
 const event = ref<Event | null>(null)
 
 onMounted(() => {
-  EventService.getEvent(props.id)
+  EventService.getEvent(parseInt(props.id))
     .then((response) => {
-      event.value = response.data  // เก็บข้อมูลที่ได้จาก API
+      event.value = response.data  
     })
     .catch((error) => {
-      console.error('There was an error!', error)  // กรณีเกิด error
+      console.error('There was an error!', error) 
     })
 })
 </script>
