@@ -13,6 +13,7 @@ const router = createRouter({
       component: EventListView,
       props: (route) => ({
         page: parseInt(route.query.page?.toString() || '1'),
+        limit: parseInt(route.query.limit?.toString() || '2')
       }),
     },
     {
