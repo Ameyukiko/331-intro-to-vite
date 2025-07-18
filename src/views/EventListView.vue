@@ -55,7 +55,7 @@ onMounted(() => {
       >
       <RouterLink
         id="page-next"
-        :to="{ name: 'event-list-view', query: { limit, page: page - 1 } }"
+        :to="{ name: 'event-list-view', query: { limit, page: page + 1 } }"
         rel="next"
         v-if="hasNextPage"
         >Next Page &#62;</RouterLink
