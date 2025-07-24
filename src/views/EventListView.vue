@@ -9,7 +9,7 @@ import type { Event } from '@/types'
 const events = ref<Event[] | null>([])
 const totalEvents = ref(0)
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / limit.value)
+  const totalPages = Math.ceil(totalEvents.value / 3)
   return page.value < totalPages
 })
 const maxEventsReach = computed(() => {
@@ -30,9 +30,9 @@ const page = computed(() => props.page)
 
 onMounted(() => {
   watchEffect(() => {
-    events.value = null
+    // events.value = null
     // nProgress.start()
- EventService.getEvents(limit.value, page.value)
+ EventService.getEvents(3, page.value)
       .then((response) => {
         events.value = response.data
         totalEvents.value = response.headers['x-total-count']
