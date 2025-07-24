@@ -4,6 +4,8 @@ import EventCard from '@/components/EventCard.vue'
 import EventService from '@/Services/EventService.ts'
 import type { Event } from '@/types'
 
+// import nProgress from 'nprogress'
+
 const events = ref<Event[] | null>([])
 const totalEvents = ref(0)
 const hasNextPage = computed(() => {
@@ -29,6 +31,7 @@ const page = computed(() => props.page)
 onMounted(() => {
   watchEffect(() => {
     events.value = null
+    // nProgress.start()
  EventService.getEvents(limit.value, page.value)
       .then((response) => {
         events.value = response.data
@@ -37,6 +40,9 @@ onMounted(() => {
       .catch((error) => {
         console.error('There was an error!', error)
       })
+      // .finally(() => {
+      //   nProgress.done()
+      // })
   })
 })
 </script>
