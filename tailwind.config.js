@@ -3,7 +3,7 @@ export default {
   content: [
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',     // ✅ scan ไฟล์ Vue และ script
-    './src/assets/**/*.{css}',            // ✅ scan style.css ตรงนี้!
+    './src/assets/**/*.css',
   ],
   theme: {
     extend: {
