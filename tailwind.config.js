@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "./src/assets/**/*.{css}",
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',     // ✅ scan ไฟล์ Vue และ script
+    './src/assets/**/*.{css}',            // ✅ scan style.css ตรงนี้!
   ],
   theme: {
     extend: {
