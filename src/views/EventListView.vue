@@ -4,10 +4,12 @@ import EventCard from '@/components/EventCard.vue'
 import EventService from '@/Services/EventService.ts'
 import type { Event } from '@/types'
 
+// import nProgress from 'nprogress'
+
 const events = ref<Event[] | null>([])
 const totalEvents = ref(0)
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / limit.value)
+  const totalPages = Math.ceil(totalEvents.value / 3)
   return page.value < totalPages
 })
 const maxEventsReach = computed(() => {
@@ -28,8 +30,9 @@ const page = computed(() => props.page)
 
 onMounted(() => {
   watchEffect(() => {
-    events.value = null
- EventService.getEvents(limit.value, page.value)
+    // events.value = null
+    // nProgress.start()
+ EventService.getEvents(3, page.value)
       .then((response) => {
         events.value = response.data
         totalEvents.value = response.headers['x-total-count']
@@ -37,40 +40,43 @@ onMounted(() => {
       .catch((error) => {
         console.error('There was an error!', error)
       })
+      // .finally(() => {
+      //   nProgress.done()
+      // })
   })
 })
 </script>
 
 <template>
   <h1>Events For Good</h1>
-  <div class="events">
+  <div class="flex flex-col items-center">
     <EventCard v-for="event in events" :key="event.id" :event="event" />
-    <div class="pagination">
+    <div class="flex w-[290px]">
       <RouterLink
-        id="page-prev"
+        id="page-prev" class="flex-1 no-underline text-[#2c3e50] text-left"
         :to="{ name: 'event-list-view', query: { limit, page: page - 1 } }"
         rel="prev"
         v-if="page != 1"
         >&#60; Prev Page</RouterLink
       >
       <RouterLink
-        id="page-next"
+        id="page-next" class="flex-1 no-underline text-[#2c3e50] text-right"
         :to="{ name: 'event-list-view', query: { limit, page: page + 1 } }"
         rel="next"
         v-if="hasNextPage"
         >Next Page &#62;</RouterLink
       >
     </div>
-     <div class="limit">
+     <div class="flex w-[290px]">
       <RouterLink
-        id="decrease-limit"
+        id="decrease-limit" class="flex-1 no-underline text-[#2c3e50] text-right"
         :to="{ name: 'event-list-view', query: { limit: limit - 1, page } }"
         rel="decrease"
         v-if="limit != 1"
         >&#60; Decrease Limit</RouterLink
       >
       <RouterLink
-        id="incrase-limit"
+        id="incrase-limit" class="flex-1 no-underline text-[#2c3e50] text-right"
         :to="{ name: 'event-list-view', query: { limit: limit + 1, page } }"
         rel="incrase"
         v-if="!maxEventsReach"
@@ -80,25 +86,3 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
-.events {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.pagination, .limit {
-  display: flex;
-  width: 290px;
-}
-.pagination a, .limit a {
-  flex: 1;
-  text-decoration: none;
-  color: #2c3e50;
-}
-#page-prev, #decrease-limit {
-  text-align: left;
-}
-#page-next, #incrase-limit {
-  text-align: right;
-}
-</style>
