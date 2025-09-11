@@ -11,6 +11,7 @@ import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import nProgress from 'nprogress'
 import EventService from '@/Services/EventService'
 import AddEventView from '@/views/event/EventFromView.vue'
+import OrganizerFormView from '@/views/event/OrganizerFromView.vue'
 import { useEventStore } from '@/stores/event'
 
 
@@ -77,6 +78,11 @@ const router = createRouter({
       path: '/add-event',
       name: 'add-event',
       component: AddEventView,
+    },
+     {
+      path: '/add-organizer',
+      name: 'add-organizer',
+      component: OrganizerFormView,
     },
     {
       path: '/student',
