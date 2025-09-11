@@ -10,7 +10,7 @@ import NotFoundView from '@/views/NotFoundView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import nProgress from 'nprogress'
 import EventService from '@/Services/EventService'
-import AddEventView from '@/views/event/AddEventView.vue'
+import AddEventView from '@/views/event/EventFromView.vue'
 import { useEventStore } from '@/stores/event'
 
 
