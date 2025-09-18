@@ -3,13 +3,12 @@ import { ref, onMounted, computed, watchEffect } from 'vue'
 import EventCard from '@/components/EventCard.vue'
 import EventService from '@/Services/EventService.ts'
 import type { Event } from '@/types'
+import router from '@/router'
 
-// import nProgress from 'nprogress'
-
-const events = ref<Event[] | null>([])
+const events = ref<Event[] | null>(null)
 const totalEvents = ref(0)
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / 3)
+  const totalPages = Math.ceil(totalEvents.value / limit.value)
   return page.value < totalPages
 })
 const maxEventsReach = computed(() => {
@@ -30,26 +29,45 @@ const page = computed(() => props.page)
 
 onMounted(() => {
   watchEffect(() => {
-    // events.value = null
-    // nProgress.start()
- EventService.getEvents(3, page.value)
+    EventService.getEvents(limit.value, page.value)
+      // EventService.getEvents(3, page.value)
       .then((response) => {
         events.value = response.data
         totalEvents.value = response.headers['x-total-count']
       })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .catch((error) => {
-        console.error('There was an error!', error)
+        router.push({ name: 'network-error-view' })
       })
-      // .finally(() => {
-      //   nProgress.done()
-      // })
   })
 })
+
+const keyword = ref('')
+function updateKeyword() {
+  let queryFunction;
+  if (keyword.value === '') {
+    queryFunction = EventService.getEvents(limit.value, page.value)
+  } else {
+    queryFunction = EventService.getEventsByKeyword(keyword.value, limit.value, page.value)
+  }
+  queryFunction.then((response) => {
+    events.value = response.data
+    console.log('events', events.value)
+    totalEvents.value = response.headers['x-total-count']
+    console.log('totalEvent', totalEvents.value)
+  }).catch(() => {
+    router.push({ name: 'NetworkError' })
+  })
+}
 </script>
 
 <template>
   <h1>Events For Good</h1>
   <div class="flex flex-col items-center">
+    <div class="w-64">
+      <!-- <BaseInput v-model="keyword" label="Search..." @input="updateKeyword" /> -->
+      <input v-model="keyword" placeholder="Search..." @input="updateKeyword" />
+    </div>
     <EventCard v-for="event in events" :key="event.id" :event="event" />
     <div class="flex w-[290px]">
       <RouterLink

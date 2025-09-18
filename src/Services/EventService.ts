@@ -1,5 +1,5 @@
-import axios from 'axios'
-import type { Event } from '@/types'
+import axios, { type AxiosResponse } from 'axios'
+import type { EventItem } from '@/types'
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -17,9 +17,16 @@ export default {
   getEvent(id: number) {
     return apiClient.get('/events/' + id)
   },
-  saveEvent(event: Event) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, ...eventWithoutId } = event
-    return apiClient.post('/events', eventWithoutId)
+  saveEvent(event: EventItem) {
+    return apiClient.post('/events', event)
+  },
+  getEventsByKeyword(
+    keyword: string,
+    perPage: number,
+    page: number,
+  ): Promise<AxiosResponse<EventItem[]>> {
+    return apiClient.get<EventItem[]>(
+      '/events?title=' + keyword + '&_limit=' + perPage + '&_page=' + page,
+    )
   },
 }
