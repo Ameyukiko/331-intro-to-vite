@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watchEffect } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import EventCard from '@/components/EventCard.vue'
 import EventService from '@/Services/EventService.ts'
 import type { Event } from '@/types'
@@ -28,27 +28,27 @@ const limit = computed(() => props.limit)
 const page = computed(() => props.page)
 
 onMounted(() => {
-  watchEffect(() => {
-    EventService.getEvents(limit.value, page.value)
-      // EventService.getEvents(3, page.value)
-      .then((response) => {
-        events.value = response.data
-        totalEvents.value = response.headers['x-total-count']
-      })
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .catch((error) => {
-        router.push({ name: 'network-error-view' })
-      })
+  // watchEffect(() => {
+  //   EventService.getEvents(limit.value, page.value)
+  //     // EventService.getEvents(3, page.value)
+  //     .then((response) => {
+  //       events.value = response.data
+  //       totalEvents.value = response.headers['x-total-count']
+  //     })
+  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //     .catch((error) => {
+  //       router.push({ name: 'network-error-view' })
+  //     })
+  updateKeyword()
   })
-})
 
 const keyword = ref('')
 function updateKeyword() {
   let queryFunction;
   if (keyword.value === '') {
-    queryFunction = EventService.getEvents(limit.value, page.value)
+    queryFunction = EventService.getEvents(3, page.value)
   } else {
-    queryFunction = EventService.getEventsByKeyword(keyword.value, limit.value, page.value)
+    queryFunction = EventService.getEventsByKeyword(keyword.value, 3, page.value)
   }
   queryFunction.then((response) => {
     events.value = response.data
@@ -103,4 +103,3 @@ function updateKeyword() {
     </div>
   </div>
 </template>
-
