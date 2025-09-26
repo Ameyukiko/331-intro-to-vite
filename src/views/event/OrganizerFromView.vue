@@ -3,15 +3,27 @@ import OrganizerService from '@/Services/OrganizerService';
 import type { Organizer } from '@/types';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Uploader from 'vue-media-upload'
 
 const organizer = ref<Organizer>({
   id: 0,
   name: '',
-  address: ''
+  address: '',
+  image: ''
 })
 
 const router = useRouter()
 const isSubmitting = ref(false)
+
+const uploadUrl = import.meta.env.VITE_UPLOAD_URL
+
+function onImageChange(files: any) {
+  if (files.length > 0) {
+    organizer.value.image = files[0].name   // ใช้ URL ที่ backend ส่งมา
+  } else {
+    organizer.value.image = ''
+  }
+}
 
 function saveOrganizer() {
   if (!organizer.value.name.trim() || !organizer.value.address.trim()) {
@@ -62,6 +74,12 @@ function saveOrganizer() {
           :class="{ error: !organizer.address.trim() && organizer.address !== '' }"
           required
         />
+      </div>
+
+       <!-- ✅ Upload image -->
+      <div class="field-group">
+        <label>Organizer Image</label>
+        <Uploader :server="uploadUrl" name="image" :max="1" @change="onImageChange" />
       </div>
 
       <div class="form-actions">

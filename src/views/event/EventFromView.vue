@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import EventService from '@/Services/EventService';
-import { useMessageStore } from '@/stores/message';
-import type { EventItem } from '@/types';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-
+import EventService from '@/Services/EventService'
+import { useMessageStore } from '@/stores/message'
+import type { EventItem } from '@/types'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import imageUpload from '@/components/ImageUpload.vue'
 const event = ref<EventItem>({
   category: '',
   title: '',
@@ -13,7 +13,8 @@ const event = ref<EventItem>({
   date: '',
   time: '',
   petsAllowed: false,
-  organizer: ''
+  organizer: '',
+  image: []
 })
 const router = useRouter()
 const store = useMessageStore()
@@ -46,6 +47,8 @@ function saveEvent() {
       <h3>Where is your event?</h3>
       <label>Location</label>
       <input v-model="event.location" type="text" placeholder="Location" class="field" />
+      <h3> The image of the Event</h3>
+      <image-upload v-model="event.image" />
       <button class="button" type="submit">Submit</button>
     </form>
 
@@ -84,7 +87,9 @@ small {
 }
 
 .-shadow {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.13);
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.13);
 }
 
 button,
@@ -148,7 +153,7 @@ select.error {
   margin-bottom: 0;
 }
 
-input+p.errorMessage {
+input + p.errorMessage {
   margin-bottom: 24px;
 }
 
@@ -170,7 +175,7 @@ textarea {
   height: auto;
 }
 
-[type='search'] {
+[type=''] {
   -webkit-appearance: textfield;
   outline-offset: -2px;
 }
@@ -216,7 +221,9 @@ select {
   height: 52px;
   padding: 0 24px 0 10px;
   vertical-align: middle;
-  background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 12px center;
+  background: #fff
+    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
   background-size: 8px 10px;
   border: solid 1px rgba(0, 0, 0, 0.4);
   border-radius: 0;
@@ -269,7 +276,9 @@ select::ms-expand {
 .button:hover {
   -webkit-transform: scale(1.02);
   transform: scale(1.02);
-  box-shadow: 0 7px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow:
+    0 7px 17px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .button:active {
@@ -288,7 +297,7 @@ select::ms-expand {
   box-shadow: none;
 }
 
-.button+.button {
+.button + .button {
   margin-left: 1em;
 }
 
@@ -311,7 +320,7 @@ select::ms-expand {
   padding: 0 20px;
 }
 
-.button.-icon-right>.icon {
+.button.-icon-right > .icon {
   margin-left: 10px;
 }
 
@@ -320,7 +329,7 @@ select::ms-expand {
   padding: 0 20px;
 }
 
-.button.-icon-left>.icon {
+.button.-icon-left > .icon {
   margin-right: 10px;
 }
 

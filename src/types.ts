@@ -8,6 +8,19 @@ export interface Event {
   time: string
   petsAllowed: boolean
   organizer: string
+  image: string[]
+}
+
+export interface EventItem {
+  category: string
+  title: string
+  description: string
+  location: string
+  date: string
+  time: string
+  petsAllowed: boolean
+  organizer: string
+  image: string[]
 }
 
 export interface EventItem {
@@ -44,4 +57,5 @@ export interface Organizer {
   id: number
   name: string
   address: string
+  image: string | undefined
 }
