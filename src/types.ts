@@ -19,7 +19,7 @@ export interface EventItem {
   date: string
   time: string
   petsAllowed: boolean
-  organizer: string
+  organizer: Organizer
   image: string[]
 }
 
@@ -31,7 +31,7 @@ export interface EventItem {
   date: string
   time: string
   petsAllowed: boolean
-  organizer: string
+  organizer: Organizer
 }
 
 export interface Student {

@@ -13,7 +13,7 @@ const event = ref<EventItem>({
   date: '',
   time: '',
   petsAllowed: false,
-  organizer: '',
+  organizer: { id: 0, name: '', address: '', image: '' },
   image: []
 })
 const router = useRouter()
