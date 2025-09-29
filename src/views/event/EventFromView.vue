@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import EventService from '@/Services/EventService'
+import BaseInput from '@/components/BaseInput.vue'
 import { useMessageStore } from '@/stores/message'
 import type { EventItem } from '@/types'
 import { ref } from 'vue'
@@ -37,16 +38,15 @@ function saveEvent() {
   <div>
     <h1>Create an event</h1>
     <form @submit.prevent="saveEvent">
-      <label>Category</label>
-      <input v-model="event.category" type="text" placeholder="Category" class="field" />
-      <h3>Name & describe your event</h3>
+      <!-- <label>Category</label>
+      <input v-model="event.category" type="text" placeholder="Category" class="field" /> -->
+      <BaseInput v-model="event.category" label="Category" type="text" placeholder="Category" />
       <label>Title</label>
       <input v-model="event.title" type="text" placeholder="Title" class="field" />
       <label>Description</label>
-      <input v-model="event.description" type="text" placeholder="Description" class="field" />
-      <h3>Where is your event?</h3>
+      <BaseInput v-model="event.description" label="Description" type="text" placeholder="Description" />
       <label>Location</label>
-      <input v-model="event.location" type="text" placeholder="Location" class="field" />
+      <BaseInput v-model="event.location" label="Location" type="text" placeholder="Location" />
       <h3> The image of the Event</h3>
       <image-upload v-model="event.image" />
       <button class="button" type="submit">Submit</button>
