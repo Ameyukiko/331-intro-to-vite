@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import EventService from '@/Services/EventService'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseSelect from '@/components/BaseSelect.vue'
 import { useMessageStore } from '@/stores/message'
 import type { EventItem, Organizer } from '@/types'
 import { onMounted, ref } from 'vue'
@@ -16,7 +17,7 @@ const event = ref<EventItem>({
   time: '',
   petsAllowed: false,
   organizer: { id: 0, name: '', address: '', image: '' },
-  image: []
+  image: [],
 })
 const router = useRouter()
 const store = useMessageStore()
@@ -46,7 +47,6 @@ function saveEvent() {
     .catch(() => {
       router.push({ name: 'network-error-view' })
     })
-
 }
 </script>
 
@@ -60,25 +60,23 @@ function saveEvent() {
       <label>Title</label>
       <input v-model="event.title" type="text" placeholder="Title" class="field" />
       <label>Description</label>
-      <BaseInput v-model="event.description" label="Description" type="text" placeholder="Description" />
+      <BaseInput
+        v-model="event.description"
+        label="Description"
+        type="text"
+        placeholder="Description"
+      />
       <label>Location</label>
       <BaseInput v-model="event.location" label="Location" type="text" placeholder="Location" />
 
-        <BaseInput v-model="event.location" type="text" label="Location" />
-  <h3>Who is your organizer?</h3>
-  <label>Select an Organizer</label>
-  <select v-model="event.organizer.id">
-    <option
-      v-for="option in organizers"
-      :value="option.id"
-      :key="option.id"
-      :selected="option.id === event.organizer.id"
-    >
-      {{ option.name }}
-    </option>
-  </select>
-  
-      <h3> The image of the Event</h3>
+      <BaseInput v-model="event.location" type="text" label="Location" />
+      <h3>Who is your organizer?</h3>
+      <label>Select an Organizer</label>
+      <select v-model="event.organizer.id">
+<BaseSelect v-model="event.organizer.id" :options="organizers" label="Organizer" />
+      </select>
+
+      <h3>The image of the Event</h3>
       <image-upload v-model="event.image" />
       <button class="button" type="submit">Submit</button>
     </form>
