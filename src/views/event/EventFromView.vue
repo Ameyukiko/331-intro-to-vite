@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import EventService from '@/Services/EventService'
-import BaseInput from '@/components/BaseInput.vue'
-import BaseSelect from '@/components/BaseSelect.vue'
-import { useMessageStore } from '@/stores/message'
-import type { EventItem, Organizer } from '@/types'
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import imageUpload from '@/components/ImageUpload.vue'
-import OrganizerSerivce from '@/Services/OrganizerService'
+import BaseInput from '@/components/BaseInput.vue';
+import BaseSelect from '@/components/BaseSelect.vue';
+import ImageUpload from '@/components/ImageUpload.vue';
+import EventService from '@/Services/EventService';
+import OrganizerService from '@/Services/OrganizerService';
+import { useMessageStore } from '@/stores/message';
+import type { Organizer, EventItem } from '@/types';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 const event = ref<EventItem>({
   category: '',
   title: '',
@@ -16,25 +17,15 @@ const event = ref<EventItem>({
   date: '',
   time: '',
   petsAllowed: false,
-  organizer: { id: 0, name: '', address: '', image: '' },
-  image: [],
+  organizer: {
+    id: 0,
+    name: '',
+    image: ''
+  },
+  images: []
 })
 const router = useRouter()
 const store = useMessageStore()
-// ✅ ตัวแปร organizers
-const organizers = ref<Organizer[]>([])
-
-// ✅ โหลด organizers ตอน mount
-onMounted(() => {
-  OrganizerSerivce.getOrganizers()
-    .then((response) => {
-      organizers.value = response.data
-    })
-    .catch(() => {
-      router.push({ name: 'network-error-view' })
-    })
-})
-
 function saveEvent() {
   EventService.saveEvent(event.value)
     .then((response) => {
@@ -48,36 +39,37 @@ function saveEvent() {
       router.push({ name: 'network-error-view' })
     })
 }
+const organizers = ref<Organizer[]>([])
+onMounted(() => {
+  OrganizerService.getOrganizers()
+    .then((response) => {
+      organizers.value = response.data
+    })
+    .catch(() => {
+      router.push({ name: 'network-error-view' })
+    })
+})
 </script>
 
 <template>
   <div>
     <h1>Create an event</h1>
     <form @submit.prevent="saveEvent">
-      <!-- <label>Category</label>
-      <input v-model="event.category" type="text" placeholder="Category" class="field" /> -->
-      <BaseInput v-model="event.category" label="Category" type="text" placeholder="Category" />
-      <label>Title</label>
-      <input v-model="event.title" type="text" placeholder="Title" class="field" />
-      <label>Description</label>
-      <BaseInput
-        v-model="event.description"
-        label="Description"
-        type="text"
-        placeholder="Description"
-      />
-      <label>Location</label>
-      <BaseInput v-model="event.location" label="Location" type="text" placeholder="Location" />
+      <BaseInput v-model="event.category" type="text" label="Category" />
 
-      <BaseInput v-model="event.location" type="text" label="Location" />
+      <h3>Name & describe your event</h3>
+      <BaseInput v-model="event.title" type="text" label="Title" />
+
+      <BaseInput v-model="event.description" type="text" label="Description" />
+
+      <h3>Where is your event?</h3>
+      <BaseInput v-model="event.location" type="text" label="location" />
+
       <h3>Who is your organizer?</h3>
-      <label>Select an Organizer</label>
-      <select v-model="event.organizer.id">
-<BaseSelect v-model="event.organizer.id" :options="organizers" label="Organizer" />
-      </select>
+      <BaseSelect v-model="event.organizer.id" :options="organizers" label="Organizer" />
 
       <h3>The image of the Event</h3>
-      <image-upload v-model="event.image" />
+      <ImageUpload v-model="event.images" />
       <button class="button" type="submit">Submit</button>
     </form>
 
@@ -116,9 +108,7 @@ small {
 }
 
 .-shadow {
-  box-shadow:
-    0 1px 2px 0 rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.13);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.13);
 }
 
 button,
@@ -182,7 +172,7 @@ select.error {
   margin-bottom: 0;
 }
 
-input + p.errorMessage {
+input+p.errorMessage {
   margin-bottom: 24px;
 }
 
@@ -204,7 +194,7 @@ textarea {
   height: auto;
 }
 
-[type=''] {
+[type='search'] {
   -webkit-appearance: textfield;
   outline-offset: -2px;
 }
@@ -250,9 +240,7 @@ select {
   height: 52px;
   padding: 0 24px 0 10px;
   vertical-align: middle;
-  background: #fff
-    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")
-    no-repeat right 12px center;
+  background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 12px center;
   background-size: 8px 10px;
   border: solid 1px rgba(0, 0, 0, 0.4);
   border-radius: 0;
@@ -305,9 +293,7 @@ select::ms-expand {
 .button:hover {
   -webkit-transform: scale(1.02);
   transform: scale(1.02);
-  box-shadow:
-    0 7px 17px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 7px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .button:active {
@@ -326,7 +312,7 @@ select::ms-expand {
   box-shadow: none;
 }
 
-.button + .button {
+.button+.button {
   margin-left: 1em;
 }
 
@@ -349,7 +335,7 @@ select::ms-expand {
   padding: 0 20px;
 }
 
-.button.-icon-right > .icon {
+.button.-icon-right>.icon {
   margin-left: 10px;
 }
 
@@ -358,7 +344,7 @@ select::ms-expand {
   padding: 0 20px;
 }
 
-.button.-icon-left > .icon {
+.button.-icon-left>.icon {
   margin-right: 10px;
 }
 
