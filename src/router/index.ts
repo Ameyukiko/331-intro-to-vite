@@ -38,7 +38,7 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: RegisterView,
+      component: EventRegisterView,
     },
     {
       path: '/event/:id',
@@ -50,7 +50,7 @@ const router = createRouter({
         const eventStore = useEventStore()
         return EventService.getEvent(id)
           .then((response) => {
-            eventStore.setEvent(response.data)
+            eventStore.setEvents(response.data)
           })
           .catch((error) => {
             if (error.response && error.response.status === 404) {
