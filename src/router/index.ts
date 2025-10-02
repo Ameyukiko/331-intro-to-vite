@@ -13,8 +13,9 @@ import EventService from '@/Services/EventService'
 import AddEventView from '@/views/event/EventFromView.vue'
 import OrganizerFormView from '@/views/event/OrganizerFromView.vue'
 import OrganizerListView from '@/views/event/OrganizerListview.vue'
-import OrganizerDetailView from '@/views/event/organizerDetailView.vue'
+import OrganizerDetailView from '@/views/event/OrganizerDetailView.vue'
 import { useEventStore } from '@/stores/event'
+import LoginView from '@/views/LoginView.vue'
 
 
 const router = createRouter({
@@ -72,6 +73,11 @@ const router = createRouter({
           props: true,
         },
       ],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
     },
     {
       path: '/about',
