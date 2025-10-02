@@ -7,8 +7,15 @@ export interface Event {
   date: string
   time: string
   petsAllowed: boolean
-  organizer: string
-  image: string[]
+  organizer: Organizer
+  images: string[]
+}
+
+export interface Organizer {
+  id: number
+  name: string
+  image: string | undefined
+  roles: string[]
 }
 
 export interface EventItem {
@@ -20,18 +27,7 @@ export interface EventItem {
   time: string
   petsAllowed: boolean
   organizer: Organizer
-  image: string[]
-}
-
-export interface EventItem {
-  category: string
-  title: string
-  description: string
-  location: string
-  date: string
-  time: string
-  petsAllowed: boolean
-  organizer: Organizer
+  images: string[]
 }
 
 export interface Student {
@@ -45,17 +41,11 @@ export interface Student {
   description: string
 }
 
-export interface MessageState {
+export interface MessagesState {
   message: string
+  editMessage: string
 }
 
 export interface EventState {
   event: Event | null
-}
-
-export interface Organizer {
-  id: number
-  name: string
-  address: string
-  image: string | undefined
 }
