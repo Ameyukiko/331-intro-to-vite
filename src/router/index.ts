@@ -31,6 +31,16 @@ const router = createRouter({
       }),
     },
     {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterView,
+    },
+    {
       path: '/event/:id',
       name: 'event-layout-view',
       component: EventLayoutView,
@@ -40,7 +50,7 @@ const router = createRouter({
         const eventStore = useEventStore()
         return EventService.getEvent(id)
           .then((response) => {
-            eventStore.setEvents(response.data)
+            eventStore.setEvent(response.data)
           })
           .catch((error) => {
             if (error.response && error.response.status === 404) {
@@ -73,11 +83,6 @@ const router = createRouter({
           props: true,
         },
       ],
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: LoginView,
     },
     {
       path: '/about',
@@ -136,10 +141,13 @@ const router = createRouter({
     }
   },
 })
+
 router.beforeEach(() => {
   nProgress.start()
 })
+
 router.afterEach(() => {
   nProgress.done()
 })
+
 export default router

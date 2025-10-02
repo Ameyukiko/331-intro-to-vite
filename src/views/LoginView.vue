@@ -5,6 +5,7 @@ import { useField, useForm } from 'vee-validate'
 import { useAuthStore } from '@/stores/auth'
 import router from '@/router'
 import { useMessageStore } from '@/stores/message'
+import { RouterLink } from 'vue-router'
 
 const messageStore = useMessageStore()
 
@@ -78,7 +79,8 @@ const onSubmit = handleSubmit((values) => {
 
       <p class="mt-10 text-center text-sm text-gray-500">
         Not a member?
-        <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Try to register here</a>
+        <RouterLink :to="{ name: 'register' }"
+          class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Try to register here</RouterLink>
       </p>
     </div>
   </div>
